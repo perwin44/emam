@@ -1,0 +1,2 @@
+{{$details['title']}}
+{{$details['body']}}

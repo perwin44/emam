@@ -2,6 +2,9 @@
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization as FacadesLaravelLocalization;
+//use Mcamara\LaravelLocalization\LaravelLocalization;
+
 //class Auth extends Illuminate\Support\Facades\Facade;
 
 /*
@@ -63,7 +66,7 @@ Route::get('/about', function () {
     return view ('about');
 });
 
-Auth::routes(['verify'=>true]);
+//Auth::routes(['verify'=>true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
 
@@ -73,4 +76,22 @@ Route::get('/', function(){
 
 Route::get('/dashboard', function(){
     return 'dashboard';
+});
+
+
+Route::get('/redirect/{service}', [App\Http\Controllers\SocialController::class,'redirect']);
+
+Route::get('/callback/{service}', [App\Http\Controllers\SocialController::class,'callback']);
+
+Route::get('fillable',[App\Http\Controllers\CrudController::class, 'getOffers']);
+
+
+Route::group(['prefix'=> FacadesLaravelLocalization::setLocale(),'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]],function(){
+
+Route::group(['prefix'=>'offers'],function(){
+  //  Route::get('store',[App\Http\Controllers\CrudController::class, 'store']);
+
+    Route::get('create',[App\Http\Controllers\CrudController::class, 'create']);
+    Route::post('store',[App\Http\Controllers\CrudController::class, 'store'])->name('offers.store');
+});
 });
