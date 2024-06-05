@@ -36,7 +36,7 @@
 
     <div>
         <!-- Breathing in, I calm body and mind. Breathing out, I smile. - Thich Nhat Hanh -->
-        {{__('Add your offer')}}
+        {{__('edit your offer')}}
         {{-- Add your offer --}}
     </div>
     @if(Session::has('success'))
@@ -45,21 +45,13 @@
       </div>
       @endif
       <br>
-    <form method="POST" action="{{route('offers.store')}}" enctype="multipart/form-data">
+    <form method="POST" action="{{route('offers.update',$offer->id)}}">
         @csrf
-
-        <div class="form-group">
-            <label for="exampleInputPassword1">choose a picture</label>
-            <input type="file" class="form-control" name="photo" >
-            @error('photo')
-            <small class="form-text text-danger">{{$message}}</small>
-            @enderror
-          </div>
 
         {{-- <input name="_token" value="{{csrf_token()}}" > --}}
         <div class="form-group">
           <label for="exampleInputEmail1">Offer Name</label>
-          <input type="text" class="form-control" name="name" placeholder="Enter email">
+          <input type="text" class="form-control" name="name" value="{{$offer->name}}" placeholder="Enter email">
           @error('name')
           <small class="form-text text-danger">{{$message}}</small>
           @enderror
@@ -67,14 +59,14 @@
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Offer Price</label>
-          <input type="text" class="form-control" name="price" placeholder="Price">
+          <input type="text" class="form-control" name="price" value="{{$offer->price}}" placeholder="Price">
           @error('price')
           <small class="form-text text-danger">{{$message}}</small>
           @enderror
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Offer Details</label>
-            <input type="text" class="form-control" name="details" placeholder="details">
+            <input type="text" class="form-control" name="details" value="{{$offer->details}}" placeholder="details">
             @error('details')
             <small class="form-text text-danger">{{$message}}</small>
             @enderror
@@ -85,9 +77,6 @@
         </div> --}}
         <button type="submit" class="btn btn-primary">Save Offer</button>
       </form>
-
-
-     
 </body>
 </html>
 
